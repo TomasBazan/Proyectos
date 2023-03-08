@@ -1,0 +1,39 @@
+{
+    "nombre": "Marcos",
+    "apellido": "Rivas",
+    "lenguajes": [
+        "JavaScript",
+        "Python",
+        "C++"
+    ],
+    "edad": "30",
+    "experencia": [
+        {
+            "empresa": "Google",
+            "antiguedad": 3
+        },
+        {
+            "empresa": "Microsoft",
+            "antiguedad": 5
+        }
+    ],
+    "direccion": {
+        "calle": "asd",
+        "numero": 40,
+        "colonia": "NY",
+        "pago_agua": [
+            {
+                "id": 0,
+                "fecha": "abril 2017"
+            },
+            {
+                "id": 1,
+                "fecha": "abril 2018"
+            },
+            {
+                "id": 3,
+                "fecha": "abril 2019"
+            }
+        ]
+    }
+}
