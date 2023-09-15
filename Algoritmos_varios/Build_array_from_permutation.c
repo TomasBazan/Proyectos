@@ -44,6 +44,6 @@ int main() {
     printf("]\n");
     free(other_array);
     free(array);
-    free(other_size);
+    f(other_size);
     return 0;
 }
