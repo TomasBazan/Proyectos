@@ -39,7 +39,7 @@ section h1 {
   right: 0;
   left: 0;
   bottom: 0;
-  transform: translateZ(-1px) scale(2);
+  transform: translateZ(-1px) scale(1.6);
   background-size: 100%;
   z-index: -1;
 }
