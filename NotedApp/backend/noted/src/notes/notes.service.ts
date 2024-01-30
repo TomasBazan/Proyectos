@@ -49,6 +49,17 @@ export class NotesService {
     }
   }
 
+  async getNoteCategories(noteId: number): Promise<Category[]> {
+    const note = await this.noteRepository.findOne({
+      where: { id: noteId },
+      relations: ['categories'],
+    });
+    if (!note) {
+      throw new NotFoundException(`Note not Found`);
+    }
+    return note.categories;
+  }
+
   async findAll() {
     return await this.noteRepository.find({ relations: ['categories'] });
   }

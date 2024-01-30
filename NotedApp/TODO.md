@@ -1,3 +1,9 @@
+## Ahora mismo el proyecto esta separado front de back
+
+## Es neceario hacer un refactor de todo el proyecto
+
+## Para que respete la arquitectura MVC
+
 [] Arreglar el modificar nota
 [] agregar los endpoints para agregar categoria, eliminar categoria y modificar categoria
 Para esto puedo hacer dentro de notes :@Post('/categories....') y tendria el endopoint ya existente

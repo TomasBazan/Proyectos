@@ -41,6 +41,11 @@ export class NotesController {
   //     return this.notesService.findAll();
   //   }
 
+  @Get('/categories')
+  findNotesWithCategory(@Param('id') noteId: number) {
+    return this.notesService.getNoteCategories(noteId);
+  }
+
   @Get()
   findOne(@Param('id') id: number) {
     return this.notesService.findOne(id);
