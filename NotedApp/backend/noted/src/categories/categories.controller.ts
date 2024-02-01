@@ -4,7 +4,7 @@ import {
   Post,
   Body,
   Patch,
-  Param,
+  Query,
   Delete,
 } from '@nestjs/common';
 import { CategoriesService } from './categories.service';
@@ -25,21 +25,16 @@ export class CategoriesController {
     return this.categoriesService.findAll();
   }
 
-  @Get()
-  findOne(@Param('id') id: number) {
-    return this.categoriesService.findOne(id);
-  }
-
   @Patch()
   update(
-    @Param('id') id: number,
+    @Query('id') id: number,
     @Body() updateCategoryDto: UpdateCategoryDto,
   ) {
     return this.categoriesService.update(id, updateCategoryDto);
   }
 
   @Delete()
-  remove(@Param('id') id: number) {
+  remove(@Query('id') id: number) {
     return this.categoriesService.remove(id);
   }
 }

@@ -4,7 +4,7 @@ import {
   Post,
   Body,
   Patch,
-  Param,
+  Query,
   Delete,
 } from '@nestjs/common';
 import { NotesService } from './notes.service';
@@ -20,44 +20,36 @@ export class NotesController {
     return this.notesService.create(createNoteDto);
   }
 
-  // @Post(':noteId/categories/:categoryId')
-  // async addCategoryToNote(
-  //   @Param('noteId') noteId: number,
-  //   @Param('categoryId') categoryId: number,
-  // ) {
-  //   return this.notesService.addCategoryToNote(noteId, categoryId);
-  // }
-
-  // @Post(':id/add-category')
-  //   addCategoryToNote(
-  //     @Param('id') noteId: number,
-  //     @Body('categoryId') categoryId: number,
-  //   ) {
-  //     return this.notesService.addCategoryToNote(noteId, categoryId);
-  //   }
-  // }
-  //   @Get()
-  //   findAll() {
-  //     return this.notesService.findAll();
-  //   }
+  @Patch('/add-category')
+  addCategoryToNote(
+    @Query('noteId') noteId: number,
+    @Query('categoryId') categoryId: number,
+  ) {
+    console.log('holis');
+    return this.notesService.addCategoryToNote(noteId, categoryId);
+  }
 
   @Get('/categories')
-  findNotesWithCategory(@Param('id') noteId: number) {
+  findNotesWithCategory(@Query('id') noteId: number) {
     return this.notesService.getNoteCategories(noteId);
   }
 
   @Get()
-  findOne(@Param('id') id: number) {
-    return this.notesService.findOne(id);
+  findOneOrMany(@Query('id') id?: number) {
+    if (id) {
+      return this.notesService.findOne(id);
+    } else {
+      return this.notesService.findAll();
+    }
   }
 
   @Patch()
-  update(@Param('id') id: number, @Body() updateNoteDto: UpdateNoteDto) {
+  update(@Query('id') id: number, @Body() updateNoteDto: UpdateNoteDto) {
     return this.notesService.update(id, updateNoteDto);
   }
 
   @Delete()
-  remove(@Param('id') id: number) {
+  remove(@Query('id') id: number) {
     return this.notesService.remove(id);
   }
 }

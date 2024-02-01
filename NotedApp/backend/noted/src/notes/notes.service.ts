@@ -91,27 +91,27 @@ export class NotesService {
     return await this.noteRepository.save(existingNote);
   }
 
-  // async addCategoryToNote(noteId: number, categoryId: number) {
-  //   const newNote = await this.noteRepository.findOneBy({ id: noteId });
-  //   if (!newNote) {
-  //     throw new NotFoundException(`Note with ID ${noteId} not found`);
-  //   }
-  //   const category = await this.categoryRepository.findOneBy({
-  //     id: categoryId,
-  //   });
-  //   if (!category) {
-  //     throw new NotFoundException(`Category with ID ${categoryId} not found`);
-  //   }
-  //   console.log(newNote);
-  //   if (!newNote.categories) {
-  //     newNote.categories = [category];
-  //   } else {
-  //     console.log(`In the else ${newNote}`);
-  //     newNote.categories.push(category);
-  //     console.log(`after the push: ${newNote}`);
-  //   }
-  //   return await this.noteRepository.save(...newNote, bread);
-  // }
+  async addCategoryToNote(noteId: number, categoryId: number) {
+    const newNote = await this.noteRepository.findOneBy({ id: noteId });
+    if (!newNote) {
+      throw new NotFoundException(`Note with ID ${noteId} not found`);
+    }
+    const category = await this.categoryRepository.findOneBy({
+      id: categoryId,
+    });
+    if (!category) {
+      throw new NotFoundException(`Category with ID ${categoryId} not found`);
+    }
+    console.log(newNote);
+    if (!newNote.categories) {
+      newNote.categories = [category];
+    } else {
+      console.log(`In the else ${newNote}`);
+      newNote.categories.push(category);
+      console.log(`after the push: ${newNote}`);
+    }
+    return await this.noteRepository.save(newNote);
+  }
 
   async remove(id: number) {
     const noteToRemove = await this.noteRepository.findOneBy({ id });
