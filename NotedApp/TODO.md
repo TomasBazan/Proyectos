@@ -4,7 +4,7 @@
 
 ## Para que respete la arquitectura MVC
 
-[] Arreglar el modificar nota en el front
+[x] Arreglar el modificar nota en el front
 [x] agregar los endpoints para agregar categoria, eliminar categoria y modificar categoria
 [] agregar el front para las categorias
 [x] Cambiar los endopoints para que los id sean por query parameters
