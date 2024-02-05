@@ -1,21 +1,25 @@
 import {
+  Box,
   Button,
-  FormControl,
-  FormHelperText,
+  Checkbox,
+  Drawer,
+  DrawerBody,
+  DrawerCloseButton,
+  DrawerContent,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerOverlay,
   FormLabel,
   Input,
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
+  InputGroup,
+  InputLeftAddon,
+  InputRightAddon,
+  Select,
+  Stack,
   Textarea,
   useDisclosure,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
-import changeNote from "../services/changeNote";
-import { handleChange } from "../customHooks/useControlForm";
+import React from "react";
 
 interface propTypes {
   id: number;
@@ -24,28 +28,8 @@ interface propTypes {
 
 export function AddCategoryModal({ id, handleChanges }: propTypes) {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const initialRef = React.useRef(null);
-  const [formData, setFormData] = useState({
-    title: "",
-    content: "",
-    archived: false,
-  });
+  const firstField = React.useRef();
 
-  const handleSubmit = async () => {
-    const { title, content, archived } = formData;
-    try {
-      await changeNote({ title, content, archived }, id);
-    } catch (e) {
-      alert(`Error: ${e.statusText}`);
-    }
-    setFormData({
-      title: "",
-      content: "",
-      archived: false,
-    });
-    onClose();
-    handleChanges();
-  };
   return (
     <>
       <Button
@@ -56,27 +40,32 @@ export function AddCategoryModal({ id, handleChanges }: propTypes) {
       >
         Agregar Categoria
       </Button>
-      <Modal initialFocusRef={initialRef} isOpen={isOpen} onClose={onClose}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Agrega una Categoria</ModalHeader>
-          <ModalBody pb={6}></ModalBody>
+      <Drawer
+        isOpen={isOpen}
+        placement="right"
+        initialFocusRef={firstField}
+        onClose={onClose}
+      >
+        <DrawerOverlay />
+        <DrawerContent>
+          <DrawerCloseButton />
+          <DrawerHeader borderBottomWidth="1px">
+            Elija las categorias
+          </DrawerHeader>
+          <DrawerBody>
+            <Stack spacing="24px">
+              {// here it goes the <Checkbox from chakra}
+            </Stack>
+          </DrawerBody>
 
-          <ModalFooter>
-            <Button
-              bg="pink.300"
-              mr={3}
-              _hover={{ bg: "pink.500" }}
-              onClick={handleSubmit}
-            >
-              Agregar
-            </Button>
-            <Button onClick={onClose} bg="pink.300" _hover={{ bg: "pink.500" }}>
+          <DrawerFooter borderTopWidth="1px">
+            <Button variant="outline" mr={3} onClick={onClose}>
               Cancelar
             </Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
+            <Button colorScheme="blue">Submit</Button>
+          </DrawerFooter>
+        </DrawerContent>
+      </Drawer>
     </>
   );
 }
