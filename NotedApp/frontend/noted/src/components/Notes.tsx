@@ -22,6 +22,7 @@ export function Notes({ notes, status, handleChanges }: noteProp) {
       console.error(`Error : ${e}`);
     }
   };
+
   const eliminateNote = (id: number) => {
     try {
       deleteNote(id);
@@ -30,6 +31,7 @@ export function Notes({ notes, status, handleChanges }: noteProp) {
       console.error(`Error: ${e}`);
     }
   };
+
   return (
     <Stack spacing="8" width="72%">
       {notes?.map((n: typeNote) => (

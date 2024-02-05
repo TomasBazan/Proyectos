@@ -1,9 +1,9 @@
-import { typeNoteToSend } from "../types";
+import { typeNoteToSend , TSetArchive} from "../types";
 
 const SERVER_URL = "http://localhost:3000/notes";
 
 function changeNote(
-  noteChanged: typeNoteToSend,
+  noteChanged: typeNoteToSend | TSetArchive,
   id: number,
 ): Promise<Response> {
   const config = {

@@ -1,15 +1,21 @@
 import {
+  Button,
+  ButtonGroup,
   Card,
   CardBody,
   CardFooter,
-  Button,
-  Stack,
+  HStack,
   Heading,
+  Spacer,
+  Tag,
+  TagCloseButton,
+  TagLabel,
   Text,
-  ButtonGroup,
+  VStack,
 } from "@chakra-ui/react";
-import { typeNote, filterNotes } from "../types";
+import { filterNotes, typeNote } from "../types";
 import { EditNoteModal } from "./EditNoteModal";
+import { AddCategoryModal } from "./AddCategoryModal";
 
 interface NoteCardProps {
   note: typeNote;
@@ -27,26 +33,43 @@ export function NoteCard({
   handleChanges,
 }: NoteCardProps) {
   const rendering = () => {
+    const categories = [
+      { id: "1", content: "nada" },
+      { id: "1", content: "xd" },
+    ];
+    console.log(categories);
     return (
-      <Card
-        key={note.id}
-        display="flex"
-        justify="center"
-        colorScheme="transparent"
-        variant="outline"
-      >
-        <CardBody textAlign="center">
-          <Stack spacing="4">
-            <Heading
-              textAlign="center"
-              variant="outline"
-              noOfLines={1}
-              size="md"
-            >
-              {note.title}
-            </Heading>
-            <Text>{note.content}</Text>
-          </Stack>
+      <Card key={note.id} colorScheme="transparent" variant="outline">
+        <CardBody>
+          <VStack spacing="4">
+            <HStack width="100%" display="flex" justifyContent="space-between">
+              <Heading
+                textAlign="left"
+                variant="outline"
+                noOfLines={2}
+                size="md"
+              >
+                {note.title}
+              </Heading>
+              <HStack>
+                {categories.map((c) => {
+                  return (
+                    <Tag
+                      size="sm"
+                      key={c.id}
+                      borderRadius="full"
+                      variant="solid"
+                      colorScheme="green"
+                    >
+                      <TagLabel>{c.content}</TagLabel>
+                      <TagCloseButton />
+                    </Tag>
+                  );
+                })}
+              </HStack>
+            </HStack>
+            <Text textAlign="left">{note.content}</Text>
+          </VStack>
         </CardBody>
         <CardFooter display="flex" justifyContent="center" justify="center">
           <ButtonGroup spacing="2">
@@ -67,6 +90,7 @@ export function NoteCard({
               Eliminar
             </Button>{" "}
             <EditNoteModal id={note.id} handleChanges={handleChanges} />
+            <AddCategoryModal id={note.id} handleChanges={handleChanges} />
           </ButtonGroup>
         </CardFooter>
       </Card>
