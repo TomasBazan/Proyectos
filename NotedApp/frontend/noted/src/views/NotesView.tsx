@@ -23,7 +23,6 @@ export function NotesView() {
       try {
         const listOfNotes: ApiResponse = await getNotes();
         if ("data" in listOfNotes) {
-          console.log(listOfNotes);
           setNotes(listOfNotes.data);
         } else {
           throw new Error(
