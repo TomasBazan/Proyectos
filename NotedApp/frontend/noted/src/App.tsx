@@ -1,4 +1,6 @@
 import { ChakraProvider, extendTheme } from "@chakra-ui/react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 import { NotesView } from "./views/NotesView";
 const theme = extendTheme({
@@ -9,10 +11,14 @@ const theme = extendTheme({
   },
 });
 
+const queryClient = new QueryClient();
 function App() {
   return (
     <ChakraProvider theme={theme}>
-      <NotesView />
+      <QueryClientProvider client={queryClient}>
+        <NotesView />
+        <ReactQueryDevtools />
+      </QueryClientProvider>
     </ChakraProvider>
   );
 }

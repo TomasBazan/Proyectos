@@ -15,7 +15,8 @@ import {
   Wrap,
   useDisclosure,
 } from "@chakra-ui/react";
-import React from "react";
+import { useQuery } from "@tanstack/react-query";
+import { getAllCategories } from "../services/getAllCategories";
 
 interface propTypes {
   id: number;
@@ -23,11 +24,15 @@ interface propTypes {
 }
 
 export function AddCategoryModal({ id, handleChanges }: propTypes) {
+  const { isLoading, data: categories } = useQuery({
+    queryFn: () => getAllCategories(),
+    queryKey: ["getAllCategories"],
+  });
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const firstField = React.useRef();
-  const allCategores = ["todo", "primero", "segundo", "cuarto"];
+
+  if (isLoading) return <div>Loading...</div>;
   return (
-    <>
+    <section>
       <Button
         variant="solid"
         bg="pink.300"
@@ -36,12 +41,7 @@ export function AddCategoryModal({ id, handleChanges }: propTypes) {
       >
         Agregar Categoria
       </Button>
-      <Drawer
-        isOpen={isOpen}
-        placement="right"
-        initialFocusRef={firstField}
-        onClose={onClose}
-      >
+      <Drawer isOpen={isOpen} placement="right" onClose={onClose}>
         <DrawerOverlay />
         <DrawerContent>
           <DrawerCloseButton />
@@ -51,10 +51,10 @@ export function AddCategoryModal({ id, handleChanges }: propTypes) {
           <DrawerBody>
             <Stack spacing="24px">
               <Wrap spacing={5} direction="row">
-                {allCategores.map((category) => {
+                {categories.map((category) => {
                   return (
-                    <Checkbox colorScheme="green" defaultChecked>
-                      {category}
+                    <Checkbox key={category.id} colorScheme="green">
+                      {category.name}
                     </Checkbox>
                   );
                 })}
@@ -68,7 +68,6 @@ export function AddCategoryModal({ id, handleChanges }: propTypes) {
               </Wrap>
             </Stack>
           </DrawerBody>
-
           <DrawerFooter borderTopWidth="1px">
             <Button variant="outline" mr={3} onClick={onClose}>
               Cancelar
@@ -77,6 +76,6 @@ export function AddCategoryModal({ id, handleChanges }: propTypes) {
           </DrawerFooter>
         </DrawerContent>
       </Drawer>
-    </>
+    </section>
   );
 }

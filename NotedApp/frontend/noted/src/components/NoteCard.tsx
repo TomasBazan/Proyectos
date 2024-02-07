@@ -6,24 +6,21 @@ import {
   CardFooter,
   HStack,
   Heading,
-  Spacer,
-  Tag,
-  TagCloseButton,
-  TagLabel,
   Text,
   VStack,
 } from "@chakra-ui/react";
 import { filterNotes, typeNote } from "../types";
 import { EditNoteModal } from "./EditNoteModal";
 import { AddCategoryModal } from "./AddCategoryModal";
+import { ShowCategories } from "./ShowCategories";
 
-interface NoteCardProps {
+type NoteCardProps = {
   note: typeNote;
   onArchive: (note: typeNote) => void;
   onDelete: (id: number) => void;
   status: filterNotes;
   handleChanges: () => void;
-}
+};
 
 export function NoteCard({
   note,
@@ -33,11 +30,6 @@ export function NoteCard({
   handleChanges,
 }: NoteCardProps) {
   const rendering = () => {
-    const categories = [
-      { id: "1", content: "nada" },
-      { id: "1", content: "xd" },
-    ];
-    console.log(categories);
     return (
       <Card key={note.id} colorScheme="transparent" variant="outline">
         <CardBody>
@@ -51,22 +43,7 @@ export function NoteCard({
               >
                 {note.title}
               </Heading>
-              <HStack>
-                {categories.map((c) => {
-                  return (
-                    <Tag
-                      size="sm"
-                      key={c.id}
-                      borderRadius="full"
-                      variant="solid"
-                      colorScheme="green"
-                    >
-                      <TagLabel>{c.content}</TagLabel>
-                      <TagCloseButton />
-                    </Tag>
-                  );
-                })}
-              </HStack>
+              <ShowCategories noteId={note.id} />
             </HStack>
             <Text textAlign="left">{note.content}</Text>
           </VStack>
