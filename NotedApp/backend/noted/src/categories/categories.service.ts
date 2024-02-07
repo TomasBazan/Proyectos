@@ -45,6 +45,16 @@ export class CategoriesService {
     return await this.categoryRepository.find();
   }
 
+  async findNoteCategories(noteId: number) {
+    const categories = await this.categoryRepository
+      .createQueryBuilder('category')
+      .innerJoin('category.notes', 'note')
+      .where('note.id = :id', { id: noteId })
+      .getMany();
+
+    return categories;
+  }
+
   async findOne(id: number) {
     return await this.categoryRepository.findOneBy({ id });
   }

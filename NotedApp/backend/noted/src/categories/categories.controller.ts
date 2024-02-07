@@ -21,8 +21,12 @@ export class CategoriesController {
   }
 
   @Get()
-  findAll() {
-    return this.categoriesService.findAll();
+  findAllOrSome(@Query('id') noteId?: number) {
+    if (!noteId) {
+      return this.categoriesService.findAll();
+    } else {
+      return this.categoriesService.findNoteCategories(noteId);
+    }
   }
 
   @Patch()
