@@ -1,31 +1,36 @@
 export type typeNote = {
-    id: number;
-    title: string;
-    content: string;
-    archived: boolean;
-}
+  id: number;
+  title: string;
+  content: string;
+  archived: boolean;
+};
 export type typeNoteToSend = {
-    title: string;
-    content: string;
-    archived: boolean;
-}
+  title: string;
+  content: string;
+  archived: boolean;
+};
 export type TSetArchive = {
-    archived: boolean;
-}
+  archived: boolean;
+};
 export type ApiResponseSuccess = {
-    ok: boolean;
-    data: typeNote[]; 
-}
-  
+  ok: boolean;
+  data: typeNote[];
+};
+
 export type ApiResponseError = {
-    status: number;
-    ok: boolean;
-    detail: string;
-}
+  status: number;
+  ok: boolean;
+  detail: string;
+};
+
+export type TCategory = {
+  id: number;
+  name: string;
+};
+
 export enum filterNotes {
-    All,
-    Archived,
-    Actived,
+  All,
+  Archived,
+  Actived,
 }
 export type ApiResponse = ApiResponseSuccess | ApiResponseError;
-

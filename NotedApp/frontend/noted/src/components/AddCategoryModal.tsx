@@ -9,14 +9,14 @@ import {
   DrawerFooter,
   DrawerHeader,
   DrawerOverlay,
-  FormLabel,
   Stack,
-  Textarea,
   Wrap,
   useDisclosure,
 } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
 import { getAllCategories } from "../services/getAllCategories";
+import { TCategory } from "../types";
+import { AddNewCategory } from "./AddNewCategory";
 
 interface propTypes {
   id: number;
@@ -51,7 +51,7 @@ export function AddCategoryModal({ id, handleChanges }: propTypes) {
           <DrawerBody>
             <Stack spacing="24px">
               <Wrap spacing={5} direction="row">
-                {categories.map((category) => {
+                {categories.map((category: TCategory) => {
                   return (
                     <Checkbox key={category.id} colorScheme="green">
                       {category.name}
@@ -59,11 +59,7 @@ export function AddCategoryModal({ id, handleChanges }: propTypes) {
                   );
                 })}
                 <Box>
-                  <FormLabel htmlFor="otro">Otro</FormLabel>
-                  <Textarea id="otro" />
-                  <Button colorScheme="blue" mt="8px">
-                    Agregar
-                  </Button>
+                  <AddNewCategory />
                 </Box>
               </Wrap>
             </Stack>

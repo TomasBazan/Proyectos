@@ -1,6 +1,7 @@
 import { HStack, Tag, TagLabel, TagCloseButton } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
 import { getNoteCategories } from "../services/getAllCategories";
+import { TCategory } from "../types";
 type noteId = { noteId: number };
 export function ShowCategories({ noteId }: noteId) {
   const { isLoading, data: categories } = useQuery({
@@ -12,7 +13,7 @@ export function ShowCategories({ noteId }: noteId) {
 
   return (
     <HStack>
-      {categories.map((c) => {
+      {categories.map((c: TCategory) => {
         return (
           <Tag
             size="sm"
