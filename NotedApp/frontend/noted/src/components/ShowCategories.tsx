@@ -1,6 +1,6 @@
 import { HStack, Tag, TagLabel, TagCloseButton } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
-import { getNoteCategories } from "../services/getAllCategories";
+import { getNoteCategories } from "../services/request";
 import { TCategory } from "../types";
 type noteId = { noteId: number };
 export function ShowCategories({ noteId }: noteId) {

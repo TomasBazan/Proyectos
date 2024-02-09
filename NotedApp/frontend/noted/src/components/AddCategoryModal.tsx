@@ -14,20 +14,16 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
-import { getAllCategories } from "../services/getAllCategories";
+import { getAllCategories } from "../services/request";
 import { TCategory } from "../types";
 import { AddNewCategory } from "./AddNewCategory";
 
-interface propTypes {
-  id: number;
-  handleChanges: () => void;
-}
-
-export function AddCategoryModal({ id, handleChanges }: propTypes) {
+export function AddCategoryModal() {
   const { isLoading, data: categories } = useQuery({
     queryFn: () => getAllCategories(),
     queryKey: ["getAllCategories"],
   });
+
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   if (isLoading) return <div>Loading...</div>;
