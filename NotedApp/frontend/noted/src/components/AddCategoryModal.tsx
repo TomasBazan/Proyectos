@@ -17,13 +17,19 @@ import { useQuery } from "@tanstack/react-query";
 import { getAllCategories } from "../services/request";
 import { TCategory } from "../types";
 import { AddNewCategory } from "./AddNewCategory";
+import { SelectCategories } from "./SelectCategories";
+// PARA EL GUARDAR:
+// Puedo hacer que el boton se encargue de tomar todos los checkbox seleccionados y guardarlos en un array
+// para pasarlos a una query, tengo que cambiar el back para que tome un array de ids
+// Tal vez primero tendria que hacer que en el map haya una condicion para que si el la categoria pertenece
+// a la nota, el checkbox este seleccionado. Tener en cuenta que tal vez deba hacerlo en otro componente
+// de una manera similar a ShowCategories
 
-export function AddCategoryModal() {
+export function AddCategoryModal({ noteId }) {
   const { isLoading, data: categories } = useQuery({
     queryFn: () => getAllCategories(),
     queryKey: ["getAllCategories"],
   });
-
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   if (isLoading) return <div>Loading...</div>;
@@ -47,13 +53,7 @@ export function AddCategoryModal() {
           <DrawerBody>
             <Stack spacing="24px">
               <Wrap spacing={5} direction="row">
-                {categories.map((category: TCategory) => {
-                  return (
-                    <Checkbox key={category.id} colorScheme="green">
-                      {category.name}
-                    </Checkbox>
-                  );
-                })}
+                <SelectCategories allCategories={categories} noteId={noteId} />
                 <Box>
                   <AddNewCategory />
                 </Box>
