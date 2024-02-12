@@ -1,6 +1,0 @@
-POST /categories/get-by-ids
-Content-Type: application/json
-
-{
-  "categoryIds": [1, 2, 3]
-}
