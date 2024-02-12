@@ -91,6 +91,23 @@ export class NotesService {
     return await this.noteRepository.save(existingNote);
   }
 
+  async updateNoteCategories(noteId: number, categoryIds: number[]) {
+    const note = await this.noteRepository.findOne({
+      where: { id: noteId },
+      relations: ['categories'],
+    });
+    if (!note) {
+      throw new NotFoundException(`Note with ID ${noteId} not found`);
+    }
+    const categories = await this.categoryRepository
+      .createQueryBuilder('category')
+      .where('category.id IN (:...ids)', { ids: categoryIds })
+      .getMany();
+    console.log(categories);
+    note.categories = categories;
+    await this.noteRepository.save(note);
+  }
+
   async addCategoryToNote(noteId: number, categoryId: number) {
     const newNote = await this.noteRepository.findOneBy({ id: noteId });
     if (!newNote) {

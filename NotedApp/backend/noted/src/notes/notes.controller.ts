@@ -48,6 +48,16 @@ export class NotesController {
     return this.notesService.update(id, updateNoteDto);
   }
 
+  @Patch('/update-categories')
+  async updateNoteCategories(
+    @Query('noteId') noteId: number,
+    @Body() updateCategoriesDto: { categoryIds: number[] },
+  ) {
+    const { categoryIds } = updateCategoriesDto;
+    await this.notesService.updateNoteCategories(noteId, categoryIds);
+    return { message: 'Categories updated successfully' };
+  }
+
   @Delete()
   remove(@Query('id') id: number) {
     return this.notesService.remove(id);
