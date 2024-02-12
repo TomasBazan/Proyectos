@@ -18,12 +18,7 @@ import { getAllCategories } from "../services/request";
 import { TCategory } from "../types";
 import { AddNewCategory } from "./AddNewCategory";
 import { SelectCategories } from "./SelectCategories";
-// PARA EL GUARDAR:
-// Puedo hacer que el boton se encargue de tomar todos los checkbox seleccionados y guardarlos en un array
-// para pasarlos a una query, tengo que cambiar el back para que tome un array de ids
-// Tal vez primero tendria que hacer que en el map haya una condicion para que si el la categoria pertenece
-// a la nota, el checkbox este seleccionado. Tener en cuenta que tal vez deba hacerlo en otro componente
-// de una manera similar a ShowCategories
+import { useState } from "react";
 
 export function AddCategoryModal({ noteId }) {
   const { isLoading, data: categories } = useQuery({
@@ -32,7 +27,20 @@ export function AddCategoryModal({ noteId }) {
   });
   const { isOpen, onOpen, onClose } = useDisclosure();
 
+  const [checkedIds, setCheckedIds] = useState<number[]>([]); // State to keep track of checked checkbox IDs
+  const handleCheckboxChange = (id: number) => {
+    if (checkedIds.includes(id)) {
+      setCheckedIds(checkedIds.filter((checkedId) => checkedId !== id)); // Uncheck the checkbox
+    } else {
+      setCheckedIds([...checkedIds, id]); // Check the checkbox
+    }
+    console.log(checkedIds);
+  };
+  const sendNewCategories = () => {
+    updateCategories(noteId, checkedIds);
+  };
   if (isLoading) return <div>Loading...</div>;
+
   return (
     <section>
       <Button
@@ -53,7 +61,11 @@ export function AddCategoryModal({ noteId }) {
           <DrawerBody>
             <Stack spacing="24px">
               <Wrap spacing={5} direction="row">
-                <SelectCategories allCategories={categories} noteId={noteId} />
+                <SelectCategories
+                  allCategories={categories}
+                  noteId={noteId}
+                  handleCheckboxChange={handleCheckboxChange}
+                />
                 <Box>
                   <AddNewCategory />
                 </Box>
@@ -64,7 +76,9 @@ export function AddCategoryModal({ noteId }) {
             <Button variant="outline" mr={3} onClick={onClose}>
               Cancelar
             </Button>
-            <Button colorScheme="blue">Guardar</Button>
+            <Button colorScheme="blue" onClick={sendNewCategories}>
+              Guardar
+            </Button>
           </DrawerFooter>
         </DrawerContent>
       </Drawer>

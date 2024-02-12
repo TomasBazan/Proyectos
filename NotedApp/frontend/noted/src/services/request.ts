@@ -11,6 +11,14 @@ export async function getNoteCategories(noteId: number): Promise<ApiResponse> {
   return axios.get(`${SERVER_URL}?id=${noteId}`).then((res) => res.data);
 }
 
+export async function updateCategories(
+  noteId: number,
+  categories: number[],
+): Promise<ApiResponse> {
+  return axios
+    .get(`${SERVER_URL}?id=${noteId}`, { categories: categories })
+    .then((res) => res.data);
+}
 export async function addNewCategory(
   newCategory: string,
 ): Promise<ApiResponse> {
