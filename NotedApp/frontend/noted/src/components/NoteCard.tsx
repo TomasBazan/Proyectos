@@ -67,7 +67,7 @@ export function NoteCard({
               Eliminar
             </Button>{" "}
             <EditNoteModal id={note.id} handleChanges={handleChanges} />
-            <AddCategoryModal noteId={note.id} />
+            <AddCategoryModal noteId={note.id} handleChanges={handleChanges} />
           </ButtonGroup>
         </CardFooter>
       </Card>

@@ -1,6 +1,7 @@
 import { Box, Checkbox } from "@chakra-ui/react";
 import { TCategory } from "../types";
 import { useCategoriesOfNote } from "../customHooks/useCategoriesOfNote";
+import { useEffect } from "react";
 
 type SelecteCategoriesProp = {
   allCategories: TCategory[];
@@ -15,6 +16,11 @@ export function SelectCategories({
 }: SelecteCategoriesProp) {
   const { isLoading, categories: selectedCategories } =
     useCategoriesOfNote(noteId);
+  useEffect(() => {
+    selectedCategories?.map((category: TCategory) => {
+      handleCheckboxChange(category.id);
+    });
+  }, []);
   if (isLoading) return <div>Loading...</div>;
   return (
     <Box>

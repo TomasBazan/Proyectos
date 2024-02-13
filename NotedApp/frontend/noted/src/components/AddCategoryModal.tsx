@@ -1,7 +1,6 @@
 import {
   Box,
   Button,
-  Checkbox,
   Drawer,
   DrawerBody,
   DrawerCloseButton,
@@ -14,30 +13,32 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
-import { getAllCategories } from "../services/request";
-import { TCategory } from "../types";
+import { useState } from "react";
+import { getAllCategories, updateCategories } from "../services/request";
 import { AddNewCategory } from "./AddNewCategory";
 import { SelectCategories } from "./SelectCategories";
-import { useState } from "react";
 
-export function AddCategoryModal({ noteId }) {
+type AddCategoryModal = { noteId: number; handleChanges: () => void };
+export function AddCategoryModal({ noteId, handleChanges }: AddCategoryModal) {
   const { isLoading, data: categories } = useQuery({
     queryFn: () => getAllCategories(),
     queryKey: ["getAllCategories"],
   });
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const [checkedIds, setCheckedIds] = useState<number[]>([]); // State to keep track of checked checkbox IDs
+  const [checkedIds, setCheckedIds] = useState<number[]>([]);
   const handleCheckboxChange = (id: number) => {
     if (checkedIds.includes(id)) {
-      setCheckedIds(checkedIds.filter((checkedId) => checkedId !== id)); // Uncheck the checkbox
+      setCheckedIds(checkedIds.filter((checkedId) => checkedId !== id));
     } else {
-      setCheckedIds([...checkedIds, id]); // Check the checkbox
+      setCheckedIds([...checkedIds, id]);
     }
     console.log(checkedIds);
   };
+
   const sendNewCategories = () => {
     updateCategories(noteId, checkedIds);
+    handleChanges();
   };
   if (isLoading) return <div>Loading...</div>;
 
