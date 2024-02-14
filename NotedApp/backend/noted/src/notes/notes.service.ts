@@ -99,12 +99,16 @@ export class NotesService {
     if (!note) {
       throw new NotFoundException(`Note with ID ${noteId} not found`);
     }
-    const categories = await this.categoryRepository
-      .createQueryBuilder('category')
-      .where('category.id IN (:...ids)', { ids: categoryIds })
-      .getMany();
-    console.log(categories);
-    note.categories = categories;
+    if (categoryIds.length === 0) {
+      note.categories = [];
+    } else {
+      const categories = await this.categoryRepository
+        .createQueryBuilder('category')
+        .where('category.id IN (:...ids)', { ids: categoryIds })
+        .getMany();
+      note.categories = categories;
+    }
+    console.log(note.categories);
     await this.noteRepository.save(note);
   }
 
