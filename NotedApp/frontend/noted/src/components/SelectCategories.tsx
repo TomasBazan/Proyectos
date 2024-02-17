@@ -7,12 +7,14 @@ type SelecteCategoriesProp = {
   allCategories: TCategory[];
   noteId: number;
   handleCheckboxChange: (id: number) => void;
+  changes: number;
 };
 
 export function SelectCategories({
   allCategories,
   noteId,
   handleCheckboxChange,
+  changes,
 }: SelecteCategoriesProp) {
   const { isLoading, categories: selectedCategories } =
     useCategoriesOfNote(noteId);
@@ -20,7 +22,7 @@ export function SelectCategories({
     selectedCategories?.map((category: TCategory) => {
       handleCheckboxChange(category.id);
     });
-  }, []);
+  }, [changes]);
   if (isLoading) return <div>Loading...</div>;
   return (
     <Box>

@@ -12,14 +12,15 @@ import {
   Wrap,
   useDisclosure,
 } from "@chakra-ui/react";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { getAllCategories, updateCategories } from "../services/request";
 import { AddNewCategory } from "./AddNewCategory";
 import { SelectCategories } from "./SelectCategories";
 
-type AddCategoryModal = { noteId: number; handleChanges: () => void };
-export function AddCategoryModal({ noteId, handleChanges }: AddCategoryModal) {
+type AddCategoryModal = { noteId: number };
+export function AddCategoryModal({ noteId }: AddCategoryModal) {
+  const queryClient = useQueryClient();
   const { isLoading, data: categories } = useQuery({
     queryFn: () => getAllCategories(),
     queryKey: ["getAllCategories"],
@@ -36,9 +37,12 @@ export function AddCategoryModal({ noteId, handleChanges }: AddCategoryModal) {
     console.log(checkedIds);
   };
 
-  const sendNewCategories = () => {
-    updateCategories(noteId, checkedIds);
-    handleChanges();
+  const sendNewCategories = async () => {
+    await updateCategories(noteId, checkedIds);
+    queryClient.invalidateQueries({
+      queryKey: ["getNoteCategories", noteId],
+    });
+    onClose();
   };
   if (isLoading) return <div>Loading...</div>;
 
