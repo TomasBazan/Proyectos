@@ -8,12 +8,24 @@ import {
 import { FormEvent, useState } from "react";
 import { addNewCategory } from "../services/request";
 import { useQueryClient } from "@tanstack/react-query";
+import { SubmitHandler, useForm } from "react-hook-form";
+
+type formInput = {
+  name: string;
+};
 
 export function AddNewCategory() {
   const NO_ERROR = 0;
   const OUT_LENGTH = 1;
   const REQUIRED = 2;
   const [error, setError] = useState(NO_ERROR);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { erros, isSubmitting },
+  } = useForm<formInput>();
+
   const errorMessages = [
     "Agrega una nueva categoria",
     "El nombre de la categoria debe ser entre 3 y 100",
@@ -21,28 +33,23 @@ export function AddNewCategory() {
   ];
 
   const queryClient = useQueryClient();
-  const handleSubmit = async (event: FormEvent) => {
-    event.preventDefault();
-    const newCategory = event.target.categoryInput.value;
-    if (!newCategory) {
-      setError(REQUIRED);
-      return;
-    }
-    if (newCategory.length > 100 || newCategory.length < 3) {
-      setError(OUT_LENGTH);
-      return;
-    }
-    await addNewCategory(newCategory);
+  const onSubmit: SubmitHandler<formInput> = async (data: formInput) => {
+    await addNewCategory(data.name);
     queryClient.invalidateQueries({
       queryKey: ["getAllCategories"],
     });
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <FormControl onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <FormControl>
         <FormLabel>Otro</FormLabel>
         <Input
+          {...register("name", {
+            required: true,
+            minLength: 3,
+            maxLength: 100,
+          })}
           id="categoryInput"
           type="text"
           placeholder="Compras, recordatorio..."
@@ -54,13 +61,9 @@ export function AddNewCategory() {
         ) : (
           <FormHelperText>{`${errorMessages[NO_ERROR]}`}</FormHelperText>
         )}
-        <Button
-          colorScheme="blue"
-          mt="8px"
-          type="submit"
-          onSubmit={handleSubmit}
-        >
-          Agregar
+
+        <Button colorScheme="blue" mt="8px" type="submit">
+          {isSubmitting ? "Espera..." : "Agregar"}
         </Button>
       </FormControl>
     </form>
