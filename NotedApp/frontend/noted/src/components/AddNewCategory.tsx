@@ -15,22 +15,11 @@ type formInput = {
 };
 
 export function AddNewCategory() {
-  const NO_ERROR = 0;
-  const OUT_LENGTH = 1;
-  const REQUIRED = 2;
-  const [error, setError] = useState(NO_ERROR);
-
   const {
     register,
     handleSubmit,
-    formState: { erros, isSubmitting },
+    formState: { errors, isSubmitting },
   } = useForm<formInput>();
-
-  const errorMessages = [
-    "Agrega una nueva categoria",
-    "El nombre de la categoria debe ser entre 3 y 100",
-    "Debes agregar una categoria",
-  ];
 
   const queryClient = useQueryClient();
   const onSubmit: SubmitHandler<formInput> = async (data: formInput) => {
@@ -50,18 +39,14 @@ export function AddNewCategory() {
             minLength: 3,
             maxLength: 100,
           })}
+          aria-invalid={errors.name? "true":"false"}
           id="categoryInput"
           type="text"
           placeholder="Compras, recordatorio..."
         />
-        {error === OUT_LENGTH ? (
-          <FormHelperText>{`${errorMessages[OUT_LENGTH]}`}</FormHelperText>
-        ) : error === REQUIRED ? (
-          <FormHelperText>{`${errorMessages[REQUIRED]}`}</FormHelperText>
-        ) : (
-          <FormHelperText>{`${errorMessages[NO_ERROR]}`}</FormHelperText>
+        {errors.name?.type === "required" && (
+          <p role="alert"> Ingresa una categoria</p>
         )}
-
         <Button colorScheme="blue" mt="8px" type="submit">
           {isSubmitting ? "Espera..." : "Agregar"}
         </Button>
@@ -69,3 +54,5 @@ export function AddNewCategory() {
     </form>
   );
 }
+
+

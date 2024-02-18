@@ -34,7 +34,7 @@ export function AddCategoryModal({ noteId }: AddCategoryModal) {
     } else {
       setCheckedIds([...checkedIds, id]);
     }
- 
+  };
 
   const sendNewCategories = async () => {
     await updateCategories(noteId, checkedIds);

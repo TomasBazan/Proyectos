@@ -1,14 +1,14 @@
-import { ApiResponse } from "../types";
+import { ApiResponse, TCategory } from "../types";
 
 import axios from "axios";
 const SERVER_URL_CATEGORIES = "http://localhost:3000/categories";
 const SERVER_URL_NOTES = "http://localhost:3000/notes";
 
-export async function getAllCategories(): Promise<ApiResponse> {
+export async function getAllCategories(): Promise<TCategory> {
   return axios.get(SERVER_URL_CATEGORIES).then((res) => res.data);
 }
 
-export async function getNoteCategories(noteId: number): Promise<ApiResponse> {
+export async function getNoteCategories(noteId: number): Promise<TCategory> {
   return axios
     .get(`${SERVER_URL_CATEGORIES}?id=${noteId}`)
     .then((res) => res.data);
