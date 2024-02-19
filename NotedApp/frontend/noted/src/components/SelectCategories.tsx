@@ -4,7 +4,7 @@ import { useCategoriesOfNote } from "../customHooks/useCategoriesOfNote";
 import { useEffect } from "react";
 
 type SelecteCategoriesProp = {
-  allCategories: TCategory[];
+  allCategories: TCategory[] | undefined;
   noteId: number;
   handleCheckboxChange: (id: number) => void;
   changes: number;
@@ -22,11 +22,12 @@ export function SelectCategories({
     selectedCategories?.map((category: TCategory) => {
       handleCheckboxChange(category.id);
     });
-  }, [changes]);
+    console.log("useEffect from SelectCategories");
+  }, [changes, selectedCategories]);
   if (isLoading) return <div>Loading...</div>;
   return (
     <Box>
-      {allCategories.map((category: TCategory) => {
+      {allCategories?.map((category: TCategory) => {
         const isChecked = selectedCategories.some(
           (selectedCategory: TCategory) => selectedCategory.id === category.id,
         );

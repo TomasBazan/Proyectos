@@ -9,14 +9,14 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
-import { filterNotes, typeNote } from "../types";
+import { filterNotes, TNote } from "../types";
 import { EditNoteModal } from "./EditNoteModal";
 import { AddCategoryModal } from "./AddCategoryModal";
 import { ShowCategories } from "./ShowCategories";
 
 type NoteCardProps = {
-  note: typeNote;
-  onArchive: (note: typeNote) => void;
+  note: TNote;
+  onArchive: (note: TNote) => void;
   onDelete: (id: number) => void;
   status: filterNotes;
   handleChanges: () => void;

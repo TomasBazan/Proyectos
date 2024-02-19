@@ -1,11 +1,4 @@
-import {
-  Button,
-  FormControl,
-  FormHelperText,
-  FormLabel,
-  Input,
-} from "@chakra-ui/react";
-import { FormEvent, useState } from "react";
+import { Button, FormControl, FormLabel, Input } from "@chakra-ui/react";
 import { addNewCategory } from "../services/request";
 import { useQueryClient } from "@tanstack/react-query";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -39,7 +32,7 @@ export function AddNewCategory() {
             minLength: 3,
             maxLength: 100,
           })}
-          aria-invalid={errors.name? "true":"false"}
+          aria-invalid={errors.name ? "true" : "false"}
           id="categoryInput"
           type="text"
           placeholder="Compras, recordatorio..."
@@ -54,5 +47,3 @@ export function AddNewCategory() {
     </form>
   );
 }
-
-

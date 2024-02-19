@@ -1,4 +1,4 @@
-export type typeNote = {
+export type TNote = {
   id: number;
   title: string;
   content: string;
@@ -12,9 +12,9 @@ export type typeNoteToSend = {
 export type TSetArchive = {
   archived: boolean;
 };
-export type ApiResponseSuccess = {
+export type ApiResponseSuccess<T> = {
   ok: boolean;
-  data: typeNote[];
+  data: T;
 };
 
 export type ApiResponseError = {
