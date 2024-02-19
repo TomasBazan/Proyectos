@@ -32,3 +32,10 @@ export async function addNewCategory(
     .post(SERVER_URL_CATEGORIES, { name: newCategory })
     .then((res) => res.data);
 }
+
+export async function getAllNotes() {
+  console.log("should print inside getAllNotes");
+  const pepe = axios.get(SERVER_URL_NOTES).then((res) => res.data);
+  console.log(pepe);
+  return pepe;
+}

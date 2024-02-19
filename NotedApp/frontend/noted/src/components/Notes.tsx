@@ -3,6 +3,7 @@ import { TNote, filterNotes } from "../types";
 import deleteNote from "../services/deleteNote";
 import changeNote from "../services/changeNote";
 import { NoteCard } from "./NoteCard";
+import { useQueryClient } from "@tanstack/react-query";
 interface noteProp {
   notes: TNote[];
   status: filterNotes;
@@ -10,23 +11,28 @@ interface noteProp {
 }
 
 export function Notes({ notes, status, handleChanges }: noteProp) {
-  const handleArchive = (noteToArchive: typeNote) => {
+  const queryClient = useQueryClient();
+  const handleArchive = async (noteToArchive: TNote) => {
     try {
       if (noteToArchive.archived === false) {
-        changeNote({ archived: true }, noteToArchive.id);
+        await changeNote({ archived: true }, noteToArchive.id);
       } else {
-        changeNote({ archived: false }, noteToArchive.id);
+        await changeNote({ archived: false }, noteToArchive.id);
       }
-      handleChanges();
+      queryClient.invalidateQueries({
+        queryKey: ["getAllNotes"],
+      });
     } catch (e) {
       console.error(`Error : ${e}`);
     }
   };
 
-  const eliminateNote = (id: number) => {
+  const eliminateNote = async (id: number) => {
     try {
-      deleteNote(id);
-      handleChanges();
+      await deleteNote(id);
+      queryClient.invalidateQueries({
+        queryKey: ["getAllNotes"],
+      });
     } catch (e) {
       console.error(`Error: ${e}`);
     }

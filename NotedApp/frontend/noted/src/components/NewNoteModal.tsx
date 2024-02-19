@@ -18,6 +18,7 @@ import {
 import React, { useState } from "react";
 import createNote from "../services/createNote";
 import { handleChange } from "../customHooks/useControlForm";
+import { useQueryClient } from "@tanstack/react-query";
 interface propTypes {
   handleChanges: () => void;
 }
@@ -30,6 +31,7 @@ export function NewNoteModal({ handleChanges }: propTypes) {
     content: "",
     archived: false,
   });
+  const queryClient = useQueryClient();
 
   const handleSubmit = async () => {
     const { title, content, archived } = formData;
@@ -45,7 +47,9 @@ export function NewNoteModal({ handleChanges }: propTypes) {
       archived: false,
     });
     onClose();
-    handleChanges();
+    queryClient.invalidateQueries({
+      queryKey: ["getAllNotes"],
+    });
   };
 
   return (

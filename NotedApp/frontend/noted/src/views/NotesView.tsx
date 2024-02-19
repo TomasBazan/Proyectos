@@ -1,14 +1,33 @@
-import { Header } from "../components/Header";
 import { Box, Flex, VStack } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
-import getNotes from "../services/getNotes";
+import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
+import { Header } from "../components/Header";
 import { Notes } from "../components/Notes";
-import { ApiResponse, typeNote, filterNotes } from "../types";
+import { filterNotes } from "../types";
+import { getAllNotes } from "../services/request";
+
+function Loading() {
+  return (
+    <div
+      style={{
+        height: "100vh",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      Loading...
+    </div>
+  );
+}
 
 export function NotesView() {
-  const [notes, setNotes] = useState<typeNote[]>([]);
   const [status, setStatus] = useState(filterNotes.All);
   const [changes, setChanges] = useState(0);
+  const { isLoading, data: allNotes } = useQuery({
+    queryFn: () => getAllNotes(),
+    queryKey: ["getAllNotes"],
+  });
 
   const handleChanges = () => {
     if (changes >= 0 && changes <= 4) {
@@ -18,23 +37,7 @@ export function NotesView() {
     }
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const listOfNotes: ApiResponse = await getNotes();
-        if ("data" in listOfNotes) {
-          setNotes(listOfNotes.data);
-        } else {
-          throw new Error(
-            `Error response: ${listOfNotes.status} - ${listOfNotes.detail}`,
-          );
-        }
-      } catch (e) {
-        console.error(`Error while fetching data: ${e}`);
-      }
-    };
-    fetchData();
-  }, [changes, status]);
+  if (isLoading) return <Loading />;
 
   return (
     <Box bg="darkBackground" minHeight="100vh">
@@ -56,7 +59,11 @@ export function NotesView() {
           borderRadius="sm"
           w="864px"
         >
-          <Notes status={status} notes={notes} handleChanges={handleChanges} />
+          <Notes
+            status={status}
+            notes={allNotes}
+            handleChanges={handleChanges}
+          />
         </VStack>
       </Flex>
     </Box>
