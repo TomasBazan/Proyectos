@@ -1,10 +1,10 @@
 import { Stack } from "@chakra-ui/react";
-import { typeNote, filterNotes } from "../types";
+import { TNote, filterNotes } from "../types";
 import deleteNote from "../services/deleteNote";
 import changeNote from "../services/changeNote";
 import { NoteCard } from "./NoteCard";
 interface noteProp {
-  notes: typeNote[];
+  notes: TNote[];
   status: filterNotes;
   handleChanges: () => void;
 }
@@ -34,7 +34,7 @@ export function Notes({ notes, status, handleChanges }: noteProp) {
 
   return (
     <Stack spacing="8" width="72%">
-      {notes?.map((n: typeNote) => (
+      {notes?.map((n: TNote) => (
         <NoteCard
           key={n.id}
           note={n}

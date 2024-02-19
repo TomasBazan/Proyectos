@@ -1,10 +1,10 @@
-import { ApiResponse, TCategory } from "../types";
+import { ApiResponseSuccess, TCategory } from "../types";
 
 import axios from "axios";
 const SERVER_URL_CATEGORIES = "http://localhost:3000/categories";
 const SERVER_URL_NOTES = "http://localhost:3000/notes";
 
-export async function getAllCategories(): Promise<TCategory> {
+export async function getAllCategories(): Promise<TCategory[]> {
   return axios.get(SERVER_URL_CATEGORIES).then((res) => res.data);
 }
 
@@ -17,7 +17,7 @@ export async function getNoteCategories(noteId: number): Promise<TCategory> {
 export async function updateCategories(
   noteId: number,
   categories: number[],
-): Promise<ApiResponse> {
+): Promise<ApiResponseSuccess<TCategory>> {
   console.log(categories);
   return axios
     .patch(`${SERVER_URL_NOTES}/update-categories?noteId=${noteId}`, {
@@ -27,7 +27,7 @@ export async function updateCategories(
 }
 export async function addNewCategory(
   newCategory: string,
-): Promise<ApiResponse> {
+): Promise<ApiResponseSuccess<TCategory>> {
   return axios
     .post(SERVER_URL_CATEGORIES, { name: newCategory })
     .then((res) => res.data);
