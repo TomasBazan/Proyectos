@@ -1,4 +1,9 @@
-import { ApiResponseSuccess, TCategory } from "../types";
+import {
+  ApiResponse,
+  ApiResponseSuccess,
+  TCategory,
+  typeNoteToSend,
+} from "../types";
 
 import axios from "axios";
 const SERVER_URL_CATEGORIES = "http://localhost:3000/categories";
@@ -34,8 +39,15 @@ export async function addNewCategory(
 }
 
 export async function getAllNotes() {
-  console.log("should print inside getAllNotes");
-  const pepe = axios.get(SERVER_URL_NOTES).then((res) => res.data);
-  console.log(pepe);
-  return pepe;
+  return axios.get(SERVER_URL_NOTES).then((res) => res.data);
+}
+
+export async function createNote(
+  noteToSend: typeNoteToSend,
+): Promise<ApiResponse> {
+  return axios.post(SERVER_URL_NOTES, noteToSend).then((res) => res.data);
+}
+
+export async function deleteNote(id: number): Promise<Response> {
+  return axios.delete(`${SERVER_URL_NOTES}?id=${id}`).then((res) => res.data);
 }
