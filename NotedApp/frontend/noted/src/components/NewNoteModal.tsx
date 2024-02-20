@@ -16,7 +16,7 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
-import createNote from "../services/createNote";
+import { createNote } from "../services/request";
 import { handleChange } from "../customHooks/useControlForm";
 import { useQueryClient } from "@tanstack/react-query";
 interface propTypes {
