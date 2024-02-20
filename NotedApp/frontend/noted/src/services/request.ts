@@ -2,6 +2,7 @@ import {
   ApiResponse,
   ApiResponseSuccess,
   TCategory,
+  TSetArchive,
   typeNoteToSend,
 } from "../types";
 
@@ -50,4 +51,11 @@ export async function createNote(
 
 export async function deleteNote(id: number): Promise<Response> {
   return axios.delete(`${SERVER_URL_NOTES}?id=${id}`).then((res) => res.data);
+}
+
+export async function changeNote(
+  noteChanged: typeNoteToSend | TSetArchive,
+  id: number,
+): Promise<Response> {
+  return axios.patch(`${SERVER_URL_NOTES}?id=${id}`, noteChanged);
 }

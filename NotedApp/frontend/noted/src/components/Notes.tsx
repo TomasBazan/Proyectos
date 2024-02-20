@@ -1,7 +1,7 @@
 import { Stack } from "@chakra-ui/react";
 import { TNote, filterNotes } from "../types";
-import deleteNote from "../services/deleteNote";
-import changeNote from "../services/changeNote";
+import { deleteNote } from "../services/request";
+import { changeNote } from "../services/request";
 import { NoteCard } from "./NoteCard";
 import { useQueryClient } from "@tanstack/react-query";
 interface noteProp {

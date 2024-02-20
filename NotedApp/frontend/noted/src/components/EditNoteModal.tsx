@@ -14,7 +14,7 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
-import changeNote from "../services/changeNote";
+import { changeNote } from "../services/request";
 import { handleChange } from "../customHooks/useControlForm";
 
 interface propTypes {
