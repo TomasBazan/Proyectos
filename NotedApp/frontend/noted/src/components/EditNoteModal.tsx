@@ -16,6 +16,7 @@ import {
 import React, { useState } from "react";
 import { changeNote } from "../services/request";
 import { handleChange } from "../customHooks/useControlForm";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface propTypes {
   id: number;
@@ -29,11 +30,14 @@ export function EditNoteModal({ id }: propTypes) {
     content: "",
     archived: false,
   });
-
+  const queryClient = useQueryClient();
   const handleSubmit = async () => {
     const { title, content, archived } = formData;
     try {
       await changeNote({ title, content, archived }, id);
+      queryClient.invalidateQueries({
+        queryKey: ["getAllNotes"],
+      });
     } catch (e) {
       alert(`Error: ${e.statusText}`);
     }
