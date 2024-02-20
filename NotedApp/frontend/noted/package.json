@@ -16,7 +16,8 @@
     "@emotion/styled": "^11.11.0",
     "framer-motion": "^10.18.0",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-hook-form": "^7.50.1"
   },
   "devDependencies": {
     "@types/react": "^18.2.43",
