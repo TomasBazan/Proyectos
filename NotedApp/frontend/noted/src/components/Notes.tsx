@@ -7,10 +7,9 @@ import { useQueryClient } from "@tanstack/react-query";
 interface noteProp {
   notes: TNote[];
   status: filterNotes;
-  handleChanges: () => void;
 }
 
-export function Notes({ notes, status, handleChanges }: noteProp) {
+export function Notes({ notes, status }: noteProp) {
   const queryClient = useQueryClient();
   const handleArchive = async (noteToArchive: TNote) => {
     try {
@@ -47,7 +46,6 @@ export function Notes({ notes, status, handleChanges }: noteProp) {
           onArchive={handleArchive}
           onDelete={eliminateNote}
           status={status}
-          handleChanges={handleChanges}
         />
       ))}
     </Stack>

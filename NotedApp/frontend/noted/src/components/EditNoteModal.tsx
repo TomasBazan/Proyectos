@@ -19,10 +19,9 @@ import { handleChange } from "../customHooks/useControlForm";
 
 interface propTypes {
   id: number;
-  handleChanges: () => void;
 }
 
-export function EditNoteModal({ id, handleChanges }: propTypes) {
+export function EditNoteModal({ id }: propTypes) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const initialRef = React.useRef(null);
   const [formData, setFormData] = useState({
@@ -44,7 +43,6 @@ export function EditNoteModal({ id, handleChanges }: propTypes) {
       archived: false,
     });
     onClose();
-    handleChanges();
   };
   return (
     <>

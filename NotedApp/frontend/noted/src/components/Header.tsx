@@ -18,10 +18,9 @@ import { filterNotes } from "../types";
 
 interface noteProp {
   setStatus: React.Dispatch<React.SetStateAction<filterNotes>>;
-  handleChanges: () => void;
 }
 
-export function Header({ setStatus, handleChanges }: noteProp) {
+export function Header({ setStatus }: noteProp) {
   const filter = (value: filterNotes) => {
     console.log(value);
     setStatus(value);
@@ -83,7 +82,7 @@ export function Header({ setStatus, handleChanges }: noteProp) {
             </MenuOptionGroup>
           </MenuList>
         </Menu>{" "}
-        <NewNoteModal handleChanges={handleChanges} />
+        <NewNoteModal />
         <Button
           onClick={logIn}
           _hover={{

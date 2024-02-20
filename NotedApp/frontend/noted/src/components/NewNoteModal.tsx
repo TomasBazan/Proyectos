@@ -19,11 +19,8 @@ import React, { useState } from "react";
 import { createNote } from "../services/request";
 import { handleChange } from "../customHooks/useControlForm";
 import { useQueryClient } from "@tanstack/react-query";
-interface propTypes {
-  handleChanges: () => void;
-}
 
-export function NewNoteModal({ handleChanges }: propTypes) {
+export function NewNoteModal() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const initialRef = React.useRef(null);
   const [formData, setFormData] = useState({

@@ -23,19 +23,10 @@ function Loading() {
 
 export function NotesView() {
   const [status, setStatus] = useState(filterNotes.All);
-  const [changes, setChanges] = useState(0);
   const { isLoading, data: allNotes } = useQuery({
     queryFn: () => getAllNotes(),
     queryKey: ["getAllNotes"],
   });
-
-  const handleChanges = () => {
-    if (changes >= 0 && changes <= 4) {
-      setChanges(changes + 1);
-    } else {
-      setChanges(changes - 4);
-    }
-  };
 
   if (isLoading) return <Loading />;
 
@@ -50,7 +41,7 @@ export function NotesView() {
           top="0"
           zIndex="sticky"
         >
-          <Header setStatus={setStatus} handleChanges={handleChanges} />
+          <Header setStatus={setStatus} />
         </Box>
         <VStack
           minHeight="100vh"
@@ -59,11 +50,7 @@ export function NotesView() {
           borderRadius="sm"
           w="864px"
         >
-          <Notes
-            status={status}
-            notes={allNotes}
-            handleChanges={handleChanges}
-          />
+          <Notes status={status} notes={allNotes} />
         </VStack>
       </Flex>
     </Box>

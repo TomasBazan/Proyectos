@@ -19,16 +19,9 @@ type NoteCardProps = {
   onArchive: (note: TNote) => void;
   onDelete: (id: number) => void;
   status: filterNotes;
-  handleChanges: () => void;
 };
 
-export function NoteCard({
-  note,
-  onArchive,
-  onDelete,
-  status,
-  handleChanges,
-}: NoteCardProps) {
+export function NoteCard({ note, onArchive, onDelete, status }: NoteCardProps) {
   const rendering = () => {
     return (
       <Card key={note.id} colorScheme="transparent" variant="outline">
@@ -66,8 +59,8 @@ export function NoteCard({
             >
               Eliminar
             </Button>{" "}
-            <EditNoteModal id={note.id} handleChanges={handleChanges} />
-            <AddCategoryModal noteId={note.id} handleChanges={handleChanges} />
+            <EditNoteModal id={note.id} />
+            <AddCategoryModal noteId={note.id} />
           </ButtonGroup>
         </CardFooter>
       </Card>
