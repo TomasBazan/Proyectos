@@ -13,7 +13,7 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { useState } from "react";
+import { useRef } from "react";
 import { getAllCategories, updateCategories } from "../services/request";
 import { AddNewCategory } from "./AddNewCategory";
 import { SelectCategories } from "./SelectCategories";
@@ -26,18 +26,22 @@ export function AddCategoryModal({ noteId }: AddCategoryModal) {
     queryKey: ["getAllCategories"],
   });
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const checkedIds = useRef<number[]>([]);
 
-  const [checkedIds, setCheckedIds] = useState<number[]>([]);
+  // Falta ver si funciona correctamente
   const handleCheckboxChange = (id: number) => {
-    if (checkedIds.includes(id)) {
-      setCheckedIds(checkedIds.filter((checkedId) => checkedId !== id));
+    if (checkedIds.current.includes(id)) {
+      checkedIds.current = checkedIds.current.filter(
+        (checkedId) => checkedId !== id,
+      );
     } else {
-      setCheckedIds([...checkedIds, id]);
+      checkedIds.current.push(id);
     }
+    console.log(`handleCheckboxChange ref= ${checkedIds.current}`);
   };
 
   const sendNewCategories = async () => {
-    await updateCategories(noteId, checkedIds);
+    await updateCategories(noteId, checkedIds.current);
     queryClient.invalidateQueries({
       queryKey: ["getNoteCategories", noteId],
     });
@@ -77,7 +81,14 @@ export function AddCategoryModal({ noteId }: AddCategoryModal) {
             </Stack>
           </DrawerBody>
           <DrawerFooter borderTopWidth="1px">
-            <Button variant="outline" mr={3} onClick={onClose}>
+            <Button
+              variant="outline"
+              mr={3}
+              onClick={() => {
+                checkedIds.current = [];
+                onClose();
+              }}
+            >
               Cancelar
             </Button>
             <Button colorScheme="blue" onClick={sendNewCategories}>
