@@ -5,7 +5,6 @@ import {
   Box,
   Spacer,
   ButtonGroup,
-  Button,
   MenuList,
   Menu,
   MenuButton,
@@ -24,9 +23,6 @@ export function Header({ setStatus }: noteProp) {
   const filter = (value: filterNotes) => {
     console.log(value);
     setStatus(value);
-  };
-  const logIn = () => {
-    console.log("LogIn");
   };
   return (
     <Flex color="white" minWidth="max-content" alignItems="center" gap="2">
@@ -83,14 +79,6 @@ export function Header({ setStatus }: noteProp) {
           </MenuList>
         </Menu>{" "}
         <NewNoteModal />
-        <Button
-          onClick={logIn}
-          _hover={{
-            bg: "pink.500",
-          }}
-        >
-          Log in
-        </Button>
       </ButtonGroup>
     </Flex>
   );
