@@ -26,6 +26,8 @@ export type ApiResponseError = {
 export type TCategory = {
   id: number;
   name: string;
+  map: (TCategory) => TCategory[];
+  some: (TCategory) => boolean;
 };
 
 export enum filterNotes {

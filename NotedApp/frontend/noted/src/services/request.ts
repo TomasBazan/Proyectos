@@ -14,7 +14,7 @@ export async function getAllCategories(): Promise<TCategory[]> {
   return axios.get(SERVER_URL_CATEGORIES).then((res) => res.data);
 }
 
-export async function getNoteCategories(noteId: number): Promise<TCategory> {
+export async function getNoteCategories(noteId: number): Promise<TCategory[]> {
   return axios
     .get(`${SERVER_URL_CATEGORIES}?id=${noteId}`)
     .then((res) => res.data);
@@ -51,6 +51,17 @@ export async function createNote(
 
 export async function deleteNote(id: number): Promise<Response> {
   return axios.delete(`${SERVER_URL_NOTES}?id=${id}`).then((res) => res.data);
+}
+
+export async function deleteNoteCategory(
+  idCategory: number,
+  idNote: number,
+): Promise<Response> {
+  return axios
+    .patch(`${SERVER_URL_NOTES}/category/?idNote=${idNote}`, {
+      idCategory: idCategory,
+    })
+    .then((res) => res.data);
 }
 
 export async function changeNote(
