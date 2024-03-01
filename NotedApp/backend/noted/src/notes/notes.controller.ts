@@ -1,15 +1,16 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Patch,
-  Query,
+  Controller,
   Delete,
+  Get,
+  Patch,
+  Post,
+  Query,
 } from '@nestjs/common';
-import { NotesService } from './notes.service';
 import { CreateNoteDto } from './dto/create-note.dto';
+import { DeleteNoteCategoryDto } from './dto/delete-note-category.dto';
 import { UpdateNoteDto } from './dto/update-note.dto';
+import { NotesService } from './notes.service';
 
 @Controller('notes')
 export class NotesController {
@@ -58,6 +59,14 @@ export class NotesController {
     return { message: 'Categories updated successfully' };
   }
 
+  @Patch('/category')
+  removeCategory(
+    @Query('idNote') idNote: number,
+    @Body() DeleteNoteCategoryDto: { idCategory: number },
+  ) {
+    const { idCategory } = DeleteNoteCategoryDto;
+    return this.notesService.removeCategory(idNote, idCategory);
+  }
   @Delete()
   remove(@Query('id') id: number) {
     return this.notesService.remove(id);

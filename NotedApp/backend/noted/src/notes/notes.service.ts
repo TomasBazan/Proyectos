@@ -108,7 +108,6 @@ export class NotesService {
         .getMany();
       note.categories = categories;
     }
-    console.log(note.categories);
     await this.noteRepository.save(note);
   }
 
@@ -123,17 +122,29 @@ export class NotesService {
     if (!category) {
       throw new NotFoundException(`Category with ID ${categoryId} not found`);
     }
-    console.log(newNote);
     if (!newNote.categories) {
       newNote.categories = [category];
     } else {
-      console.log(`In the else ${newNote}`);
       newNote.categories.push(category);
-      console.log(`after the push: ${newNote}`);
     }
     return await this.noteRepository.save(newNote);
   }
 
+  async removeCategory(idNote: number, idCategory: number) {
+    const noteToChange = await this.noteRepository.findOne({
+      where: { id: idNote },
+      relations: ['categories'],
+    });
+    if (!noteToChange) {
+      throw new NotFoundException(`Note with ID ${idNote} not found`);
+    }
+    const newNoteCategories = noteToChange.categories.filter(
+      (cat) => cat.id !== idCategory,
+    );
+    noteToChange.categories = newNoteCategories;
+    console.log(`colled removeCategory ${noteToChange}`);
+    return await this.noteRepository.save(noteToChange);
+  }
   async remove(id: number) {
     const noteToRemove = await this.noteRepository.findOneBy({ id });
     if (!noteToRemove) {
