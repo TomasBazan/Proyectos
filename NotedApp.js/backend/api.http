@@ -1,0 +1,3 @@
+DELETE http://localhost:3000/categories?id=55
+
+GET http://localhost:3000/categories
