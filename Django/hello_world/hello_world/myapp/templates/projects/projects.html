@@ -3,12 +3,13 @@
 {% block content %}
   </br>
   <h1>Projects</h1>
-  <p>List of projects : {{project_list}}</p>
 
   {% for project in project_list %}
-  <article>
-    <h1>{{project.name}}</h1>
-  </article>
+    <article>
+      <a href="{% url 'project_detail' project.id %}">
+        <h2>{{ project.name }}</h2>
+      </a>
+    </article>
   {% endfor %}
 
 {% endblock%}

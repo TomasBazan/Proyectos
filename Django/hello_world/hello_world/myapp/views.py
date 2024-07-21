@@ -34,6 +34,14 @@ def projects(request):
     # return JsonResponse(projects, safe=False)
 
 
+def project_detail(request, id):
+    project = get_object_or_404(Project, id=id)
+    tasks = Task.objects.filter(project_id=id)
+    return render(
+        request, "projects/detail.html", {"project": project, "task_list": tasks}
+    )
+
+
 def create_new_project(request):
     if request.method == "GET":
         # Render the form page
