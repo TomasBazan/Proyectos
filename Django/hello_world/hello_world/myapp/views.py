@@ -1,8 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse, JsonResponse, HttpResponseNotFound
 from .models import Project, Task
-from .forms import CreateNewTask, CreateNewProject
-# Create your views here.
+from .forms import TaskForm, ProjectForm
 
 
 def index(request):
@@ -39,7 +38,7 @@ def create_new_project(request):
     if request.method == "GET":
         # Render the form page
         return render(
-            request, "projects/create_new_project.html", {"form": CreateNewProject()}
+            request, "projects/create_new_project.html", {"form": ProjectForm()}
         )
     elif request.method == "POST":
         # Create the task
@@ -67,7 +66,7 @@ def tasks(request):
 def create_new_task(request):
     if request.method == "GET":
         # Render the form page
-        return render(request, "tasks/create_new_task.html", {"form": CreateNewTask()})
+        return render(request, "tasks/create_new_task.html", {"form": TaskForm()})
     elif request.method == "POST":
         # Create the task
         action = request.POST.get("action")
