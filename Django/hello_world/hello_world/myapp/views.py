@@ -1,11 +1,12 @@
-from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponse, JsonResponse
+from django.shortcuts import render, get_object_or_404, redirect
+from django.http import HttpResponse, JsonResponse, HttpResponseNotFound
 from .models import Project, Task
+from .forms import CreateNewTask, CreateNewProject
 # Create your views here.
 
 
 def index(request):
-    titulo = "Django Course"
+    titulo = "Project manager"
     return render(request, "index.html", {"title": titulo})
 
 
@@ -27,16 +28,55 @@ def projects(request):
     """Ejemplo para buscar la lista de entradas, no tomo all()
     porque me devuelve las referencias
     """
-    return render(request, "projects.html")
+    lista_projectos = list(Project.objects.values())  # Tambien funcion con all
+    return render(request, "projects/projects.html", {"project_list": lista_projectos})
+    # return render(request, "projects.html")
     # projects = list(Project.objects.values())
     # return JsonResponse(projects, safe=False)
 
 
-def tasks(request, id):
-    """Ejemplo de busca por id"""
-    # task_asked = Task.objects.get(id=id)# Forma convensional, devuelve error
-    #                                        feo
-    return render(request, "tasks.html")
-    # task_asked = get_object_or_404(Task, id=id)  # Cleaner, devuelve un error
-    #                                               mas razonable
-    # return HttpResponse(f"task title: {task_asked.title}")
+def create_new_project(request):
+    if request.method == "GET":
+        # Render the form page
+        return render(
+            request, "projects/create_new_project.html", {"form": CreateNewProject()}
+        )
+    elif request.method == "POST":
+        # Create the task
+        action = request.POST.get("action")
+        if action == "save":
+            Project.objects.create(
+                name=request.POST["name"],
+            )
+            return redirect("projects")
+    else:
+        return HttpResponseNotFound("Error")
+
+
+def tasks(request):
+    """Ejemplo de busca por id
+    Forma convensional, devuelve error feo1
+    task_asked = Task.objects.get(id=id)
+    Forma mas linda, error 404
+    task_asked = get_object_or_404(Task, id=id)
+    """
+    tasks = Task.objects.all()
+    return render(request, "tasks/tasks.html", {"tasks": tasks})
+
+
+def create_new_task(request):
+    if request.method == "GET":
+        # Render the form page
+        return render(request, "tasks/create_new_task.html", {"form": CreateNewTask()})
+    elif request.method == "POST":
+        # Create the task
+        action = request.POST.get("action")
+        if action == "save":
+            Task.objects.create(
+                title=request.POST["title"],
+                description=request.POST["description"],
+                project_id=2,
+            )
+            return redirect("tasks")
+    else:
+        return HttpResponseNotFound("Error")
