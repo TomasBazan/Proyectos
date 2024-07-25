@@ -170,6 +170,31 @@ button {
    transform var(--animation-duration) ease;
  }
 }
+.taskButtons{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+/* Card styling for <article> elements */
+article {
+  background: f7f7f7; /* White background for the card */
+  border: 1px solid #ddd; /* Light gray border */
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  padding: 16px; /* Space inside the card */
+  margin: 16px 0; /* Space around the card */
+}
+
+
+article h1 {
+  margin-top: 0; /* Remove top margin from <h1> */
+  font-size: 1.5em; /* Larger font size for the title */
+}
+
+article p {
+  margin: 8px 0; /* Space around paragraphs */
+  line-height: 1.6; /* Improve readability */
+}
 
 input {
  transition:
@@ -219,6 +244,8 @@ textarea {
    transform var(--animation-duration) ease;
 }
 nav{
+  display: flex;
+  justify-content: space-evenly;
   background: #0082e6;
   height: 80px;
   width: 100%;

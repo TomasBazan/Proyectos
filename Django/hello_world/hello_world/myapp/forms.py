@@ -1,12 +1,22 @@
 from django import forms
+from .models import Task, Project
 
 
-class CreateNewTask(forms.Form):
-    title = forms.CharField(label="Title of the Task")
-    description = forms.CharField(
-        label="Description of the Task", widget=forms.Textarea
+class TaskForm(forms.ModelForm):
+    class Meta:
+        model = Task
+        fields = ["title", "description", "project"]
+
+    project = forms.ModelChoiceField(
+        queryset=Project.objects.all(), label="Select Project"
     )
 
 
 class CreateNewProject(forms.Form):
     name = forms.CharField(label="Name of the Project")
+
+
+class ProjectForm(forms.ModelForm):
+    class Meta:
+        model = Project
+        fields = ["name"]

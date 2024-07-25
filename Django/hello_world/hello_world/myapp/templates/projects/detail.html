@@ -2,8 +2,9 @@
 
 {% block content %}
   </br>
-  <h1>Tasks</h1>
-  {% for task in tasks %}
+  <h1>{{ project.name }}</h1>
+
+  {% for task in task_list %}
     <article>
       {% if task.done is False%}
         <h1>Tarea Pendiente: {{task.title}}</h1>
@@ -28,4 +29,5 @@
       </div>
     </article>
   {% endfor %}
-{% endblock %}
+
+{% endblock%}
