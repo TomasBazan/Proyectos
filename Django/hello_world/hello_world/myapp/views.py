@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse, JsonResponse, HttpResponseNotFound
+from django.urls import reverse
 from .models import Project, Task
 from .forms import TaskForm, ProjectForm
 
@@ -24,9 +25,15 @@ def projects(request):
     return render(request, "projects/projects.html", {"project_list": lista_projectos})
 
 
+def delete_project(request, project_id):
+    project = get_object_or_404(Project, id=project_id)
+    project.delete()
+    return redirect("projects")
+
+
 def project_detail(request, id):
     project = get_object_or_404(Project, id=id)
-    tasks = Task.objects.filter(project_id=id)
+    tasks = Task.objects.filter(project_id=id).order_by("done", "title")
     return render(
         request, "projects/detail.html", {"project": project, "task_list": tasks}
     )
@@ -48,24 +55,24 @@ def create_new_project(request):
         return HttpResponseNotFound("Error")
 
 
-def delete_task(request, task_id):
+def delete_task(request, task_id, project_id):
     task = get_object_or_404(Task, id=task_id)
     task.delete()
-    return redirect("tasks")
+    return redirect(reverse("project_detail", args=[project_id]))
 
 
-def mark_done_task(request, task_id):
+def mark_done_task(request, task_id, project_id):
     task = get_object_or_404(Task, id=task_id)
     task.done = True
     task.save()
-    return redirect("tasks")
+    return redirect(reverse("project_detail", args=[project_id]))
 
 
-def mark_undone_task(request, task_id):
+def mark_undone_task(request, task_id, project_id):
     task = get_object_or_404(Task, id=task_id)
     task.done = False
     task.save()
-    return redirect("tasks")
+    return redirect(reverse("project_detail", args=[project_id]))
 
 
 def create_new_task(request):
@@ -80,6 +87,6 @@ def create_new_task(request):
                 description=request.POST["description"],
                 project_id=request.POST["project"],
             )
-            return redirect("tasks")
+            return redirect("create_task")
     else:
         return HttpResponseNotFound("Error")
