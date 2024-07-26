@@ -9,6 +9,11 @@
       <a href="{% url 'project_detail' project.id %}">
         <h2>{{ project.name }}</h2>
       </a>
+      <form method="delete" action="{% url 'delete_project' project.id %}">
+        {% csrf_token %}
+        <button type="submit">⌫ Delete</button>
+      </form>
+
     </article>
   {% endfor %}
 

@@ -2,30 +2,32 @@
 
 {% block content %}
   </br>
-  <h1>Tasks</h1>
-  {% for task in tasks %}
+  <h1>{{ project.name }}</h1>
+
+  {% for task in task_list %}
     <article>
       {% if task.done is False%}
-        <h1>Tarea Pendiente: {{task.title}}</h1>
+        <h1>🕔 Tarea Pendiente: {{task.title}}</h1>
       {% else %}
-        <h1>Tarea Realizada: {{task.title}}</h1>
+        <h1>✅ Tarea Realizada: {{task.title}}</h1>
       {% endif %}
       <p>{{task.description}}</p>
       <p>Project : {{task.project.id}} - {{task.project}}</p>
       <div class="taskButtons">
-      <form method="delete" action="{% url 'delete_task' task.id %}">
+      <form method="delete" action="{% url 'delete_task' task.id project.id %}">
         {% csrf_token %}
         <button type="submit">⌫ Delete</button>
       </form>
-      <form method="post" action="{% url 'mark_done_task' task.id %}">
+      <form method="post" action="{% url 'mark_done_task' task.id project.id %}">
         {% csrf_token %}
         <button type="submit">✓ Done</button>
       </form>
-      <form method="post" action="{% url 'mark_undone_task' task.id %}">
+      <form method="post" action="{% url 'mark_undone_task' task.id project.id %}">
         {% csrf_token %}
         <button type="submit">🚫 Undone</button>
       </form>
       </div>
     </article>
   {% endfor %}
-{% endblock %}
+
+{% endblock%}
