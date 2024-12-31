@@ -96,4 +96,14 @@ CORS_ALLOWED_ORIGINS = []
 hay que agregarlo si no esta
 
 
+### Enviroment Variables
 
+- Para poder usar variables de entorno instalo django-environ importo environ en el settings.py y lo inicializo
+```python
+import environ
+# Initialise environment variables
+env = environ.Env()
+environ.Env.read_env()
+```
+- Creo mi archivo .env
+- Declaro variables de entorno y lo agrego al .gitignore1
